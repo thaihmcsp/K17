@@ -1,0 +1,218 @@
+npm init          khởi tạo dự án
+
+npm install express
+
+===============================
+b1              require express
+b2              tạo app = express()
+b3              tạo port  .listen
+b4              app.get('path',function(req,res){
+              res.send('trả lời')
+            })
+
+  lưu ý: không để trùng method và path
+
+res.send        gui text hoặc string html
+res.sendFile    gửi file
+                phải gửi bằng đường dẫn tuyệt đối (path)
+
+res.json        gửi response dạng json
+
+
+express.static  gửi 1 folder lên 
+                đỡ phải gửi từng file lẻ
+
+query           data gửi kèm trên đường dẫn
+                ?key1=value1&key2=value2
+
+params          data gửi kèm trên đường dẫn
+  app.get('/link/:age')
+                /link/321321
+                age = 321321
+              
+=================================================================
+rest API        quy ước chung để dễ làm việc
+phải cụ thể bảng data tương tác trên đường dẫn
+
+get             dùng để hiển thị giao diện
+                tìm kiếm, lấy data (find, findOne)
+/student/               find
+/student/:id            findOne({_id:req.params.id})
+
+
+Post            dùng để thêm data (create)
+                các chức năng khác
+/student/               create({....})                
+
+
+put             dùng để update data (updateOne, updateMany)
+/student/:id            updateOne({_id:req.params.id})
+
+
+delete          dùng để delete data (deleteOne, deleteMany)
+/student/:id            deleteOne({_id:req.params.id})
+
+
+bài tập
+
+dùng chuẩn rest API để tạo tk , đổi mk, xóa tk
+
+tạo tk          tạo tk phải ktra xem username có trùng không
+                không trùng mới cho tạo
+
+đổi mk          phải nhập mật khẩu cũ
+                kiểm tra nếu mật khẩu cũ khớp với id tên param thì mới cho đổi mật khẩu
+put             nếu không khớp thông báo nhập sai mk
+/student/:id
+
+xóa tk          phải nhập mật khẩu cũ
+delete          kiểm tra nếu mật khẩu cũ khớp với id tên param thì mới cho xóa data
+/student/:id    nếu không khớp thông báo nhập sai mk
+
+===========================================================
+
+router          bộ định tuyến theo url
+
+
+b1              tạo router
+          const express = require("express");
+          const router = express.Router();
+
+          router.get
+          router.post
+          router.put
+          router.delete
+
+          module.exports = router;
+
+b2              import router bên file app.js
+          const IndexRouter = require("./indexRouter");
+
+b3              sử dụng router
+          app.use('/link định tuyến', IndexRouter)
+
+========================================================
+
+ajax            gửi request từ client về server
+
+b1        dẫn link jquery
+          dẫn link file js
+
+b2        
+          $.ajax ({
+            type:'GET' / POST / PUT / DELETE,
+            url: '/link?key=value&key2=value2'
+            url: '/link/param1/param2?key=value&key2=value2
+          })
+          .then       xử lý data trả về
+          .catch      xử lý lỗi trả về
+
+
+BTVN
+
+window.location.href = "/home";     chuyển trang
+
+tạo giao diện liệt kê các button môn học 
+khi click button thì hiện ra bảng điền username, password
+điền đúng thì môn học sẽ thêm vào cho student
+
+làm trang tạo tài khoản
+có input điền username, password, nút đăng ký
+kiểm tra username đã hợp lệ chưa rồi mới tạo tk
+tạo tk thành công thì chuyển sang trang đăng nhập
+
+làm giao diện trang đăng nhập
+có input điền username, password, nút đăng nhập
+nếu đăng nhập thành công thì chuyển sang trang home
+
+làm phân trang có nút mũi tên next, previous
+ấn mũi tên để chuyển trang,
+khi ở trang đầu thì previous không chuyển trang
+khi ở trang cuối thì next không chuyển trang
+
+==============================================================
+để nhận data gửi về body
+B1
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
+
+B2  
+POSTMAN   gửi body ở phân loại urlencoded
+AJAX      data:{key:value}
+
+b3  server bắt body 
+  req.body
+
+Lưu ý:
+body chỉ được gửi về ở method POST , PUT , DELETE
+Get không có body
+
+
+1.  dùng body để gửi username ,password tạo user
+2.  dùng body gửi username ,password để làm chức năng đăng nhập
+
+===================================================
+function mũi tên
+function tên (tham số) { chức năng }
+
+var ten = (tham số) => {chức năng}
+
+ngắn gọn khi viết callback
+
+======================================================
+async await   
+Dùng để xử lý promise
+
+async   sẽ được đặt ở trước function
+        khi function có gắn async thì nó trả ra promise
+
+await   chỉ dùng được trong async function 
+        khiến đoạn code bên dưới phải chờ đợi await chạy xong
+
+Loại bỏ khả năng bị promise hell (promise lồng .then với nhau)
+
+áp dụng async await và function mũi tên để 
+  - viết lại các API hiện có trong server
+  - viết lại code ajax
+
+=================================================================
+web browser có kho data riêng
+
+localStorage
+sessionStorage
+cookie            được tự động gửi kèm trong req.headers
+
+cookie-parser     hỗ trợ chuyển cookie từ string => object
+
+setCookie         đẩy data lên cookie
+
+===========================================
+
+user vào trang chủ
+nếu user chưa đăng nhập thì đẩy sang trang login
+nếu user đã đăng nhập thì cho vào trang chủ
+
+
+tạo 1 đường dẫn để kiểm tra đăng nhập
+          từ cookie trả về tìm kiếm user theo id nhận được từ cookie
+
+bên trang chủ gọi vào đường dẫn để biết user đăng nhập hay chưa
+          tùy vào kết quả trả về để xử lý
+
+============================================================
+
+npm i jsonwebtoken
+
+require
+
+.sign         tạo ra 1 chuỗi mã hóa từ data và mật khẩu truyền vào
+
+.verify       truyền token và pass để dịch từ mã hóa về data
+
+==========================================
+thêm chức năng kiểm tra đăng nhập cho các trang 
+áp dụng đăng nhập, đăng xuất, kiểm tra đăng nhập với JWT
+
+
+
+middleWare    là bước trung gian cần phải vượt qua để thực hiện chức năng

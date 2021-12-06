@@ -1,0 +1,9 @@
+h1 {
+  color: red;
+}
+
+.buttonList,
+.listData {
+  width: 50%;
+  margin: auto;
+}

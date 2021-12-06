@@ -1,0 +1,30 @@
+module.exports = 10
+var bien = require('./')
+
+có module.exports   thì require sẽ nhận giá trị được exports
+
+mặc định require sẽ đọc toàn bộ file theo JS khi gặp module.exports thì sẽ lấy kết quả về
+
+path:         để tạo đường dẫn tuyệt đối
+__dirname:    lưu link tuyệt đối của file hiện tại
+
+
+fs
+
+fs.writeFile    : ghi đè nội dung vào đường dẫn đã chọn
+                  nếu file chưa có thì nó sẽ thêm file và thêm nội dung
+                  nếu folder không tồn tại thì sẽ báo lỗi
+                  là 1 hàm bất đồng bộ
+
+fs.writeFileSynce: giong writeFile chạy đồng bộ
+
+
+fs.unlink         xóa file, không xóa folder
+                  chạy bất đồng bộ
+
+fs.appendFile     thêm nội dung vào cuối file
+                  chạy bất đồng bộ
+                  nêu file chưa được tạo thì sẽ tạo file mới
+
+fs.readFile       chạy bất đồng bộ
+                  đọc nội dung file chỉ định theo encoding được chọn

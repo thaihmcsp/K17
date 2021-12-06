@@ -1,0 +1,93 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jQuery UI Draggable + Sortable</title>
+    <!-- <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" /> -->
+    <style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 10px;
+      }
+      li {
+        margin: 5px;
+        padding: 5px;
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body style="display: flex">
+    <div>
+      <ul>
+        <li class="draggable" class="ui-state-highlight">Todo</li>
+      </ul>
+      <ul class="sortable todo" group="todo">
+        <li class="ui-state-default draggable">Item 1</li>
+        <li class="ui-state-default draggable">Item 2</li>
+        <li class="ui-state-default draggable">Item 3</li>
+        <li class="ui-state-default draggable">Item 4</li>
+        <li class="ui-state-default draggable">Item 5</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li class="draggable" class="ui-state-highlight">Doing</li>
+      </ul>
+      <ul class="sortable doing" group="doing">
+        <li class="ui-state-default draggable 61891753ed8223ed9c05fcad">
+          Item 1
+        </li>
+        <li class="ui-state-default draggable">Item 2</li>
+        <li class="ui-state-default draggable">Item 3</li>
+        <li class="ui-state-default draggable">Item 4</li>
+        <li class="ui-state-default draggable">Item 5</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li class="draggable" class="ui-state-highlight">Done</li>
+      </ul>
+      <ul class="sortable done" group="done"></ul>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script>
+    $(function () {
+      $.ajax({
+        url: "/student",
+        type: "GET",
+      })
+        .then((data) => {
+          console.log(data);
+          let list = ``;
+          for (let i = 0; i < data.length; i++) {
+            list += `<li class="ui-state-default draggable" key='${data[i]._id}'>${data[i].name}</li>`;
+          }
+          $(".done").html(list);
+          $(".sortable").sortable({
+            revert: true,
+            receive: function (event, ui) {
+              console.log(70, $(event.target).attr("group"));
+              console.log(71, ui.item.eq(0).attr("key"));
+            },
+          });
+          $(".draggable").draggable({
+            connectToSortable: ".sortable",
+            // helper: "clone",
+            revert: "invalid",
+          });
+          $("ul, li").disableSelection();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  </script>
+</html>
