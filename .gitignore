@@ -1,6 +1,6 @@
 deploy web
 ejs
 multer
-noidung.txt
+noi dung.txt
 package-lock.json
 node_modules
